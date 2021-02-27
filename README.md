@@ -7,3 +7,11 @@ I want to give a huge shout out to Devlin Peck and his excellent tutorials that 
 [The Full Guide to xAPI and Storyline](https://www.devlinpeck.com/tutorials/full-guide-xapi-storyline)
 
 If you are not sure what xAPI is or how to take advantage I would recommend that you start with the link above.
+
+## Storyline Execute JavaScript Triggers
+
+The following trigger will pass baseline + objectDescription and activity type.
+- 
+```javascript
+sendStatement("verb", "verbId", "object", "objectID", "objectDescription", "activityType");
+```
