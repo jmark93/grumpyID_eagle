@@ -11,12 +11,18 @@ function sendStatement(verb, verbId, object, objectId, objectDescription, activi
     const lNamejs = player.GetVar("lName");
     const uNamejs = lNamejs + ", " + fNamejs;
     const uEmailjs = player.GetVar("uEmail");
-    const uRespAjs = player.GetVar(shortText);
+    //const uRespAjs = player.GetVar(shortText);
+    const uScorejs = player.GetVar("uScore");
+    const maxScorejs = player.GetVar("maxScore");
+    const scaleScorejs = uScorejs / maxScorejs;
+    const uSuccessjs = scaleScorejs >= 0.8 ? true : false;
+
     const conf = {
         "endpoint": secret_1js,
         "auth": "Basic " + toBase64(secret_2js)
     };
     ADL.XAPIWrapper.changeConfig(conf);
+    
     const statement = {
             "actor": {
                 "name": uNamejs,
@@ -36,7 +42,14 @@ function sendStatement(verb, verbId, object, objectId, objectDescription, activi
             },
             "objectType": "Activity",
             "result": {
-                "response": uRespAjs
+                // "response": uRespAjs
+                "score": {
+                    "min": 0,
+                    "max": maxScorejs,
+                    "raw": uScorejs,
+                    "scaled": scaleScorejs
+                },
+                "success": uSuccessjs
             }
         };
         const result = ADL.XAPIWrapper.sendStatement(statement);
