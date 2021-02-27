@@ -3,7 +3,7 @@
 // Whose determined these standardized variables? Are, they industry standard?
 // I did. No. - The GrumpyID
 
-function sendStatement(verb, verbId, object, objectId) {
+function sendStatement(verb, verbId, object, objectId, objectDescription, activityType, shortText) {
     const player = GetPlayer();
     const secret_1js = player.GetVar("secret_1");
     const secret_2js = player.GetVar("secret_2");
@@ -11,6 +11,7 @@ function sendStatement(verb, verbId, object, objectId) {
     const lNamejs = player.GetVar("lName");
     const uNamejs = lNamejs + ", " + fNamejs;
     const uEmailjs = player.GetVar("uEmail");
+    const uRespAjs = player.GetVar(shortText);
     const conf = {
         "endpoint": secret_1js,
         "auth": "Basic " + toBase64(secret_2js)
@@ -28,9 +29,15 @@ function sendStatement(verb, verbId, object, objectId) {
             "object": {
                 "id": objectId,
                 "definition": {
-                    "name": { "en-US": object }
+                    "name": { "en-US": object },
+                    "description": { "en-US": objectDescription },
+                    "type": activityType
                 }
-            } 
+            },
+            "objectType": "Activity",
+            "result": {
+                "response": uRespAjs
+            }
         };
         const result = ADL.XAPIWrapper.sendStatement(statement);
 }
